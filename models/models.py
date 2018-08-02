@@ -1,4 +1,4 @@
-from models.segmentation import seg_test_net
+from universal_models.models.segmentation import *
 
 def get_model(name, *args):
     """
@@ -12,10 +12,15 @@ def get_model(name, *args):
 
     models = {
         'seg_test_net' : seg_test_net,
+        'seg_unet_shallow' : seg_unet_shallow,
+        'seg_unet' : seg_unet,
+        'seg_net_shallow' : seg_net_shallow,
+        'seg_net' : seg_net,
     }
 
     try:
-        model = models[name](args)
+        model = models[name](*args)
         return model
-    except:
+    except Exception as e:
+        print("Error while creating model:", e)
         return None
