@@ -26,7 +26,12 @@ def seg_head(input_img, output, n_classes):
     Return:
         A tuple containing the model, the height, and the width of the output 
     """
-    output = Conv2D(n_classes, (1, 1), activation='softmax', padding='same')(output)
+    if n_classes == 1:
+        activation = 'sigmoid'
+    else:
+        activation = 'softmax'
+
+    output = Conv2D(n_classes, (1, 1), activation=activation, padding='same')(output)
 
     # create model
     model = Model(input_img, output)
@@ -129,9 +134,7 @@ def seg_unet_shallow(input_height, input_width, input_channels, n_classes):
     x = Conv2D(64, (5, 5), activation='relu', padding='same')(x)
     x = Conv2D(64, (5, 5), activation='relu', padding='same')(x)
     
-    o = Conv2D(n_classes, (1, 1), activation='relu', padding='same')(x)
-    
-    return seg_head(img_input, o, n_classes)
+    return seg_head(img_input, x, n_classes)
 
 def seg_unet(input_height, input_width, input_channels, n_classes):
     """
@@ -193,8 +196,6 @@ def seg_unet(input_height, input_width, input_channels, n_classes):
     x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
     x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
     
-    x = Conv2D(n_classes, (1, 1), activation='relu', padding='same')(x)
-    
     return seg_head(img_input, x, n_classes)
 
 def seg_net_shallow(input_height, input_width, input_channels, n_classes):
@@ -245,9 +246,8 @@ def seg_net_shallow(input_height, input_width, input_channels, n_classes):
     x = BatchNormalization()(x)
     x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
     x = BatchNormalization()(x)
-    o = Conv2D(n_classes, (1, 1), activation='relu', padding='same')(x)
     
-    return seg_head(img_input, o, n_classes)
+    return seg_head(img_input, x, n_classes)
 
 def seg_net(input_height, input_width, input_channels, n_classes):
     """
@@ -324,6 +324,5 @@ def seg_net(input_height, input_width, input_channels, n_classes):
     x = BatchNormalization()(x)
     x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
     x = BatchNormalization()(x)
-    o = Conv2D(n_classes, (1, 1), activation='relu', padding='same')(x)
-    
-    return seg_head(img_input, o, n_classes)
+        
+    return seg_head(img_input, x, n_classes)
