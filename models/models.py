@@ -1,4 +1,5 @@
 from universal_models.models.segmentation import *
+from universal_models.models.rnn import *
 
 def get_model(name, *args):
     """
@@ -16,6 +17,8 @@ def get_model(name, *args):
         'seg_unet' : seg_unet,
         'seg_net_shallow' : seg_net_shallow,
         'seg_net' : seg_net,
+        'lstm_test_net' : lstm_test_net,
+        'lstm_shallow' : lstm_shallow, 
     }
 
     try:
