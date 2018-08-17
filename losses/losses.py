@@ -37,7 +37,7 @@ def bce_dice_loss(y_true, y_pred):
     return loss
 
 
-def gen_dice_coeff(y_true, y_pred):
+def gen_dice_coeff(y_true, y_pred, eps=1e-7, smooth=0):
     """
     Multiclass dice coefficient as described in https://arxiv.org/pdf/1707.03237.pdf
 
@@ -45,13 +45,29 @@ def gen_dice_coeff(y_true, y_pred):
     r_ln is the label for the n-th data point for label set l.
     p_ln is the predicted probability for the n-th data point for label set l.
     """
-    w = 1./(K.square(K.sum(y_true, axis=(0, 1, 2))) + 1e-6) # for stability
+
+    axes = tuple(range(0, len(y_pred.shape) - 1)) # everything but the channels
+    w = 1./(K.square(K.sum(y_true, axis=axes)) + eps) # for stability
     
-    num = K.sum(w * K.sum(y_true * y_pred, axis=(0, 1, 2))) 
-    den = K.sum(w * K.sum(y_true + y_pred, axis=(0, 1, 2)))
+    num = K.sum(w * K.sum(y_true * y_pred, axis=axes)) 
+    den = K.sum(w * K.sum(y_true + y_pred, axis=axes))
+
+    score = (2. * num + smooth) / (den + eps + smooth)
+    return score
+    
+    """
+    # This does not work rn, it seems to only work for 1 class...
+    
+    axes = tuple(range(1, len(y_pred.shape) - 1)) # not over batchsize, channels
+    w = 1./(K.square(K.sum(y_true, axis=axes)) + eps) # for stability
+
+    # keep batch dimension intact, sum over channels
+    num = K.sum(w * K.sum(y_true * y_pred, axis=axes), axis=-1) 
+    den = K.sum(w * K.sum(y_true + y_pred, axis=axes), axis=-1)
 
     score = 2. * num / den
-    return score
+    return K.mean(score)
+    """
     
 def gen_dice_loss(y_true, y_pred):
     """
