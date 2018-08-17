@@ -1,7 +1,7 @@
 import keras.backend as K
 from keras.losses import binary_crossentropy, categorical_crossentropy
 
-def dice_coeff(y_true, y_pred, smooth=1.):
+def dice_coeff(y_true, y_pred, smooth=0):
     """
     Dice coefficient from http://campar.in.tum.de/pub/milletari2016Vnet/milletari2016Vnet.pdf
 
@@ -57,7 +57,7 @@ def gen_dice_coeff(y_true, y_pred, eps=1e-7, smooth=0):
     
     """
     # This does not work rn, it seems to only work for 1 class...
-    
+
     axes = tuple(range(1, len(y_pred.shape) - 1)) # not over batchsize, channels
     w = 1./(K.square(K.sum(y_true, axis=axes)) + eps) # for stability
 
@@ -68,7 +68,7 @@ def gen_dice_coeff(y_true, y_pred, eps=1e-7, smooth=0):
     score = 2. * num / den
     return K.mean(score)
     """
-    
+
 def gen_dice_loss(y_true, y_pred):
     """
     Loss based on the Generalized Dice coefficient.
