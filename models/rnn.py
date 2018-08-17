@@ -98,14 +98,16 @@ def lstm_head(input_img, output, n_classes):
     return model, output_height, output_width
 
 
-def lstm_test_net(input_height, input_width, input_channels, timesteps, n_classes, collapse=False):
+def lstm_test_net(input_height, input_width, input_channels, n_classes, timesteps=None, collapse=False):
     """
     Create a simple image segmentation model based on UNet
     Args:
         input_height: The height dimension of the input images (divisible by 32)
         input_width: The widht dimension of the input images (divisible by 32)
-        input_channels: The number of channels of the input images#
+        input_channels: The number of channels of the input images
         n_classes: The number of classes of the output images
+        timesteps: A fixed number of timesteps per sequence
+        collapse: Collapse the output to produce only one image
     Return:
         A tuple containing the model, the height, and the width of the output 
     """
@@ -117,15 +119,18 @@ def lstm_test_net(input_height, input_width, input_channels, timesteps, n_classe
     
     x = TimeDistributed(MaxPooling2D((2, 2), strides=(2, 2)))(x)
     x = TimeDistributed(Conv2D(32, (3, 3), activation='relu', padding='same'))(x)
+    x = TimeDistributed(Conv2D(32, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(BatchNormalization())(x)
     c2 = x
 
     x = TimeDistributed(MaxPooling2D((2, 2), strides=(2, 2)))(x)    
     x = TimeDistributed(Conv2D(64, (3, 3), activation='relu', padding='same'))(x)
+    x = TimeDistributed(Conv2D(64, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(BatchNormalization())(x)    
     c3 = x
 
     x = TimeDistributed(MaxPooling2D((2, 2), strides=(2, 2)))(x)    
+    x = TimeDistributed(Conv2D(128, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(Conv2D(128, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(BatchNormalization())(x)    
 
@@ -133,19 +138,23 @@ def lstm_test_net(input_height, input_width, input_channels, timesteps, n_classe
 
     x = TimeDistributed(UpSampling2D((2, 2)))(x)
     x = TimeDistributed(Conv2D(64, (3, 3), activation='relu', padding='same'))(x)
+    x = TimeDistributed(Conv2D(64, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(BatchNormalization())(x)
     x = Concatenate(axis=-1)([c3, x])
 
     x = TimeDistributed(UpSampling2D((2, 2)))(x)
+    x = TimeDistributed(Conv2D(32, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(Conv2D(32, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(BatchNormalization())(x)
     x = Concatenate(axis=-1)([c2, x])
 
     x = TimeDistributed(UpSampling2D((2, 2)))(x)
     x = TimeDistributed(Conv2D(16, (3, 3), activation='relu', padding='same'))(x)
+    x = TimeDistributed(Conv2D(16, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(BatchNormalization())(x)
     x = Concatenate(axis=-1)([c1, x])
 
+    x = TimeDistributed(Conv2D(8, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(Conv2D(8, (3, 3), activation='relu', padding='same'))(x)
     x = TimeDistributed(BatchNormalization())(x)
     
@@ -154,7 +163,7 @@ def lstm_test_net(input_height, input_width, input_channels, timesteps, n_classe
     else:
         return timebased_head(img_input, x, n_classes)
 
-def lstm_shallow(input_height, input_width, input_channels, timesteps, n_classes, collapse=False):
+def lstm_shallow(input_height, input_width, input_channels, n_classes, timesteps=None, collapse=False):
     """
     Create a fully LSTM network that does some downsampling followed by some upsampling
     Args:
