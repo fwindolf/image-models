@@ -54,20 +54,6 @@ def gen_dice_coeff(y_true, y_pred, eps=1e-7, smooth=0):
 
     score = (2. * num + smooth) / (den + eps + smooth)
     return score
-    
-    """
-    # This does not work rn, it seems to only work for 1 class...
-
-    axes = tuple(range(1, len(y_pred.shape) - 1)) # not over batchsize, channels
-    w = 1./(K.square(K.sum(y_true, axis=axes)) + eps) # for stability
-
-    # keep batch dimension intact, sum over channels
-    num = K.sum(w * K.sum(y_true * y_pred, axis=axes), axis=-1) 
-    den = K.sum(w * K.sum(y_true + y_pred, axis=axes), axis=-1)
-
-    score = 2. * num / den
-    return K.mean(score)
-    """
 
 def gen_dice_loss(y_true, y_pred):
     """
@@ -94,6 +80,7 @@ def focal_loss(y_true, y_pred, gamma=2):
     Puts more weigth on badly classified examples (y_pred < .5) in order
     to output highly accurate predictions
     """
+    raise RuntimeWarning("This loss is untested. Before using it, make sure it works (and maybe add some tests while u're at it!)")
     y_pred /= K.sum(y_pred, axis=-1, keepdims=True)
     eps = K.epsilon()
     y_pred = K.clip(y_pred, eps, 1. - eps)
