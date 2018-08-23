@@ -14,12 +14,12 @@ All models can be created via the `get_model()` method, where the name of the mo
 Image segmentation tries to predict non-overlapping areas of classes from rgb images. The training data thus consists of images as input, and categorical ground truth data (image based layers that contain 1s where the class that the layer represents is active, and 0s otherwise).
 
 Networks are called with the following parameters:
-| Parameter | Meaning |
-| ----------| --------| 
-| input_height | Height of the input image. |
-| input_width  | Width of the input image. |
+| Parameter      | Meaning                                                                                                        |
+| -------------- | -------------------------------------------------------------------------------------------------------------- |
+| input_height   | Height of the input image.                                                                                     |
+| input_width    | Width of the input image.                                                                                      |
 | input_channels | Number of channels in the input image (can also be the number of greyscal images stacked ontop of each other). |
-| n_classes | The number of classes in the ground truth data. |
+| n_classes      | The number of classes in the ground truth data.                                                                |
 
 All networks return a tuple containing the model, the output_height and the output_width of the network.
 
@@ -49,15 +49,17 @@ Again, two variants of SegNet exist, a normal and a shallow one. The normal vari
 For classification on sequence based data (videos, simulations, ...), image segmentation provides pretty accurate results. However, those can be improved by involving temporal data into the prediction process, making predictions more accurate, and also less 'jumpy' in sequence.
 
 Networks are called with the following parameters:
-| Parameter | Meaning |
-| ----------| --------| 
-| input_height | Height of the input image |
-| input_width  | Width of the input image |
-| input_channels | Number of channels in the input image (can also be the number of greyscal images stacked |ontop of each other)
-| n_classes | The number of classes in the ground truth data |
-| stateful  | Create a stateful network. This means that the network keeps the state between batches. Use `model.reset_states()` to clear state. |
-| timesteps | The number of timesteps in the data. Can be left at None (default) for stateless networks. |
-| batchsize | The number of batches used in training. Can be also left at None (default) for training stateless networks. |
+
+| Parameter      | Meaning                                                                                                                            |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| input_height   | Height of the input image                                                                                                          |
+| input_width    | Width of the input image                                                                                                           |
+| input_channels | Number of channels in the input image (can also be the number of greyscal images stacked ontop of each other)                      |
+| n_classes      | The number of classes in the ground truth data                                                                                     |
+| stateful       | Create a stateful network. This means that the network keeps the state between batches. Use `model.reset_states()` to clear state. |
+| timesteps      | The number of timesteps in the data. Can be left at None (default) for stateless networks.                                         |
+| batchsize      | The number of batches used in training. Can be also left at None (default) for training stateless networks.                        |
+
 
 Most of the models are implemented using TimeDistributed layers, which wrap other layers in a way that they can use input data with varying timesteps and apply to the wrapped layer to data of each timestep. This means the number of parameters does not change when varying the timesteps of the data.
 
