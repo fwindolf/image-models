@@ -1,4 +1,5 @@
 from universal_models.models.segmentation import *
+from universal_models.models.ladder import *
 from universal_models.models.rnn import *
 
 def get_model(name, *args):
@@ -17,6 +18,7 @@ def get_model(name, *args):
         'seg_unet' : seg_unet,
         'seg_net_shallow' : seg_net_shallow,
         'seg_net' : seg_net,
+        'seg_ladder_shallow' : seg_ladder_shallow,
         'lstm_unet' : lstm_unet,
         'lstm_shallow' : lstm_shallow, 
         'lstm_full' : lstm_full,
