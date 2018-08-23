@@ -14,6 +14,7 @@ All models can be created via the `get_model()` method, where the name of the mo
 Image segmentation tries to predict non-overlapping areas of classes from rgb images. The training data thus consists of images as input, and categorical ground truth data (image based layers that contain 1s where the class that the layer represents is active, and 0s otherwise).
 
 Networks are called with the following parameters:
+
 | Parameter      | Meaning                                                                                                        |
 | -------------- | -------------------------------------------------------------------------------------------------------------- |
 | input_height   | Height of the input image.                                                                                     |
