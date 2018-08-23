@@ -108,7 +108,7 @@ Dice loss tries to minimize the overlap of predicion and ground truth over the c
 
 It is based on the dice coefficient (which can be also used as a metric), that measures how good the overlap is, and converges to 1 for two classes.
 
-$D= 2\frac{\Sigma_i^N p_i  g_i}{\Sigma_i^N p_i² + \Sigma_i^N g_i²}$ with a additional class weiths $w=\frac{1}{\Sigma_i^N g_i² + \epsilon}$
+$`D= 2\frac{\Sigma_i^N p_i  g_i}{\Sigma_i^N p_i² + \Sigma_i^N g_i²}`$ with a additional class weiths $`w=\frac{1}{\Sigma_i^N g_i² + \epsilon}`$
 
 Combined with a binary crossentropy loss (bce_dice_loss), it enables fast learning eg for predicitons of future frames.
 
@@ -122,7 +122,7 @@ It can be combined with a crossentropy loss (ce_dice_loss) to do the same things
 
 Another loss that is supposed to work well on image segmentation problems is the focal loss. It puts more learning effort onto hard (badly classified) examples and prevents easy negative examples from overwhelming the loss.
 
-$F(p_i) = -(1-p_i)^\gamma log(p_i)$ with tunable $\gamma$
+$`F(p_i) = -(1-p_i)^\gamma log(p_i)`$ with tunable $`\gamma`$
 
 However, the implementation is not tested as of now.
 
