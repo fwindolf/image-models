@@ -17,8 +17,10 @@ def get_model(name, *args):
         'seg_unet' : seg_unet,
         'seg_net_shallow' : seg_net_shallow,
         'seg_net' : seg_net,
-        'lstm_test_net' : lstm_test_net,
+        'lstm_unet' : lstm_unet,
         'lstm_shallow' : lstm_shallow, 
+        'lstm_full' : lstm_full,
+        'lstm_next_frame' : lstm_next_frame,
     }
 
     try:
