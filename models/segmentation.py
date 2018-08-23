@@ -31,7 +31,7 @@ def seg_head(input_img, output, n_classes):
     else:
         activation = 'softmax'
 
-    output = Conv2D(n_classes, (1, 1), activation=activation, padding='same')(output)
+    output = Conv2D(n_classes, (1, 1), activation=activation, padding='same', name='segmentation_head')(output)
 
     # create model
     model = Model(input_img, output)
