@@ -15,7 +15,7 @@ Image segmentation tries to predict non-overlapping areas of classes from rgb im
 
 Networks are called with the following parameters:
 | Parameter | Meaning |
-| ----------| --------| 
+| ----------| --------|
 | input_height | Height of the input image. |
 | input_width  | Width of the input image. |
 | input_channels | Number of channels in the input image (can also be the number of greyscal images stacked ontop of each other). |
@@ -58,6 +58,7 @@ Networks are called with the following parameters:
 | stateful  | Create a stateful network. This means that the network keeps the state between batches. Use `model.reset_states()` to clear state. |
 | timesteps | The number of timesteps in the data. Can be left at None (default) for stateless networks. |
 | batchsize | The number of batches used in training. Can be also left at None (default) for training stateless networks. |
+
 
 Most of the models are implemented using TimeDistributed layers, which wrap other layers in a way that they can use input data with varying timesteps and apply to the wrapped layer to data of each timestep. This means the number of parameters does not change when varying the timesteps of the data.
 
