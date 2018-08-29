@@ -4,7 +4,7 @@ import keras
 import keras.backend as K
 from keras.utils import to_categorical
 
-from universal_models.losses.losses import *
+from image_models.losses.losses import *
 
 def random_data(shape, num_classes):
     """

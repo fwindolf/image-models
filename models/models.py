@@ -1,6 +1,6 @@
-from universal_models.models.segmentation import *
-from universal_models.models.ladder import *
-from universal_models.models.rnn import *
+from image_models.models.segmentation import *
+from image_models.models.ladder import *
+from image_models.models.rnn import *
 
 def get_model(name, *args):
     """

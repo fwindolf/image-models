@@ -6,7 +6,7 @@ from keras.layers import *
 from keras.activations import *
 from keras.engine.topology import Layer
 
-from universal_models.models.segmentation import seg_input, seg_head
+from image_models.models.segmentation import seg_input, seg_head
 
 import os
 
